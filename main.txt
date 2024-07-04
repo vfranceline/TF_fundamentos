@@ -1,9 +1,9 @@
-ADDI  $sp, $sp, -9
+ADDI  $sp, $sp, -9 # setando o ponteiro ( -9, número de caracteres + 1 do /o final )
 
-ADDI $t0, $zero, 68    # 'D'
-SB $t0, 0($sp)
+ADDI $t0, $zero, 68    #68 valor ascII pra 'D', guarda valor no registrador temporário 0 (primeira posição/letra)
+SB $t0, 0($sp) #armazena o registrador temporário '$t0' no endereço de '$sp' com deslocamento 0, no início
 ADDI $t0, $zero, 105   # 'i'
-SB $t0, 1($sp)
+SB $t0, 1($sp) #armazena o registrador temporário '$t0' (105 - i) no mesmo endereço de '$sp' com deslocamento 1, logo após o primeiro
 ADDI $t0, $zero, 103   # 'g'
 SB $t0, 2($sp)
 ADDI $t0, $zero, 105   # 'i'
@@ -18,3 +18,10 @@ ADDI $t0, $zero, 78    # 'N'
 SB $t0, 7($sp)
 ADDI $t0, $zero, 0     # (nulo)
 SB $t0, 8($sp)
+
+addiu $t0, $sp, 0		# faz adição do endereço de '$sp" com 0 e guarda em '$t0', serve só pra armazenar lá mesmo
+
+addi $a0, $t0, 0 #passando o endereço para o argumento '$a0', necessário para usar qualquer syscall
+addi $v0, $zero, 51 #coloca 51 em '$v0' 
+syscall #chamada do SO para realizar a operação 
+ADDU $s0, $zero, $a0 #copia argumento '$a0' para '$s0', porque vai precisar usar depois para o loop.
