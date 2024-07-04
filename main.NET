@@ -1,0 +1,20 @@
+ADDI  $sp, $sp, -9
+
+ADDI $t0, $zero, 68    # 'D'
+SB $t0, 0($sp)
+ADDI $t0, $zero, 105   # 'i'
+SB $t0, 1($sp)
+ADDI $t0, $zero, 103   # 'g'
+SB $t0, 2($sp)
+ADDI $t0, $zero, 105   # 'i'
+SB $t0, 3($sp)
+ADDI $t0, $zero, 116   # 't'
+SB $t0, 4($sp)
+ADDI $t0, $zero, 101   # 'e'
+SB $t0, 5($sp)
+ADDI $t0, $zero, 32    # (espaço)
+SB $t0, 6($sp)
+ADDI $t0, $zero, 78    # 'N'
+SB $t0, 7($sp)
+ADDI $t0, $zero, 0     # (nulo)
+SB $t0, 8($sp)
