@@ -25,7 +25,7 @@ addi $t0, $zero, 0   # nulo
 sb $t0, 8($sp)
 
 addi $a0, $sp, 0    # salvou o argumento no a0
-addi $v0, $zero, 51  # syscall for printing string
+addi $v0, $zero, 51  # syscall para printar string
 syscall
 addu $s1, $zero, $a0   # contador (N atual)
 
@@ -67,5 +67,5 @@ sb $t0, 7($sp)
 
 addi $a0, $sp, 0    # salvou a mensagem no $a0 
 addi $a1, $s0, 0	# valor atual da soma
-addi $v0, $zero, 56  # syscall para printar a string
+addi $v0, $zero, 56  # syscall para printar a string 
 syscall
