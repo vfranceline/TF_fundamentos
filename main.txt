@@ -1,27 +1,72 @@
-ADDI  $sp, $sp, -9 # setando o ponteiro ( -9, número de caracteres + 1 do /o final )
+# Print "Digite N: "
 
-ADDI $t0, $zero, 68    #68 valor ascII pra 'D', guarda valor no registrador temporário 0 (primeira posição/letra)
-SB $t0, 0($sp) #armazena o registrador temporário '$t0' no endereço de '$sp' com deslocamento 0, no início
-ADDI $t0, $zero, 105   # 'i'
-SB $t0, 1($sp) #armazena o registrador temporário '$t0' (105 - i) no mesmo endereço de '$sp' com deslocamento 1, logo após o primeiro
-ADDI $t0, $zero, 103   # 'g'
-SB $t0, 2($sp)
-ADDI $t0, $zero, 105   # 'i'
-SB $t0, 3($sp)
-ADDI $t0, $zero, 116   # 't'
-SB $t0, 4($sp)
-ADDI $t0, $zero, 101   # 'e'
-SB $t0, 5($sp)
-ADDI $t0, $zero, 32    # (espaço)
-SB $t0, 6($sp)
-ADDI $t0, $zero, 78    # 'N'
-SB $t0, 7($sp)
-ADDI $t0, $zero, 0     # (nulo)
-SB $t0, 8($sp)
+# Initialize variables
+addi $s1, $zero, 0	 # Counter (current N)
+addi $s0, $zero, 0   # Sum (accumulator)
 
-addiu $t0, $sp, 0		# faz adição do endereço de '$sp" com 0 e guarda em '$t0', serve só pra armazenar lá mesmo
+addi $sp, $sp, -9  # Reserve space for "Digite N: " on stack
 
-addi $a0, $t0, 0 #passando o endereço para o argumento '$a0', necessário para usar qualquer syscall
-addi $v0, $zero, 51 #coloca 51 em '$v0' 
-syscall #chamada do SO para realizar a operação 
-ADDU $s0, $zero, $a0 #copia argumento '$a0' para '$s0', porque vai precisar usar depois para o loop.
+addi $t0, $zero, 68  # 'D'
+sb $t0, 0($sp)
+addi $t0, $zero, 105 # 'i'
+sb $t0, 1($sp)
+addi $t0, $zero, 103 # 'g'
+sb $t0, 2($sp)
+addi $t0, $zero, 105 # 'i'
+sb $t0, 3($sp)
+addi $t0, $zero, 116 # 't'
+sb $t0, 4($sp)
+addi $t0, $zero, 101 # 'e'
+sb $t0, 5($sp)
+addi $t0, $zero, 32  # ' '
+sb $t0, 6($sp)
+addi $t0, $zero, 78  # 'N'
+sb $t0, 7($sp)
+addi $t0, $zero, 0   # null terminator
+sb $t0, 8($sp)
+
+addi $a0, $sp, 0    # Set message address to stack location
+addi $v0, $zero, 51  # syscall for printing string
+syscall
+addu $s1, $zero, $a0   # Counter (current N)
+
+bne $s1, $zero, loop
+
+# Calculate sum using a loop
+loop:
+    beq $s1, $zero, done
+
+    # Add current N to the sum
+    add $s0, $s0, $s1
+
+    # Decrement N
+    addi $s1, $s1, -1
+
+    j loop
+
+done:
+
+# Print "soma ="
+addi $sp, $sp, -8  # Reserve space for "soma =" on stack
+
+addi $t0, $zero, 115 # 's'
+sb $t0, 0($sp)
+addi $t0, $zero, 111 # 'o'
+sb $t0, 1($sp)
+addi $t0, $zero, 109 # 'm'
+sb $t0, 2($sp)
+addi $t0, $zero, 97  # 'a'
+sb $t0, 3($sp)
+addi $t0, $zero, 32  # ' '
+sb $t0, 4($sp)
+addi $t0, $zero, 61  # '='
+sb $t0, 5($sp)
+addi $t0, $zero, 32  # ' '
+sb $t0, 6($sp)
+addi $t0, $zero, 0   # null terminator
+sb $t0, 7($sp)
+
+addi $a0, $sp, 0    # Set message address to stack location
+addi $a1, $s0, 0	# current value of the sum
+addi $v0, $zero, 56  # syscall for printing string
+syscall
