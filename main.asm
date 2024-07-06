@@ -1,6 +1,6 @@
 # inicializando as variaveis 
-addi $s1, $zero, 0	 # contador (N)
 addi $s0, $zero, 0   # Soma (acumulador da soma)
+addi $s1, $zero, 0	 # contador (N)
 
 # Print "Digite N: "
 addi $sp, $sp, -9  # reserva um espaço para "digite n: "
